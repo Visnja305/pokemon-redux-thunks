@@ -4,18 +4,22 @@ import { useSelector } from 'react-redux';
 import PokemonItems from './PokemonItems';
 import EditPokemonForm from './EditPokemonForm';
 import ItemForm from './ItemForm';
-
+import {getOnePokemonDetails} from "../store/pokemon"
+import { useDispatch } from 'react-redux';
 const PokemonDetail = () => {
+  const dispatch=useDispatch();
   const { pokemonId } = useParams();
-  const pokemon = useSelector(state => state.pokemon[pokemonId]);
+
   const [showEditPokeForm, setShowEditPokeForm] = useState(false);
   const [editItemId, setEditItemId] = useState(null);
 
   useEffect(() => {
+    dispatch(getOnePokemonDetails(pokemonId));
     setShowEditPokeForm(false);
     setEditItemId(null);
   }, [pokemonId]);
 
+  const pokemon = useSelector(state => state.pokemon[pokemonId]);
   if (!pokemon || !pokemon.moves) {
     return null;
   }
@@ -24,16 +28,16 @@ const PokemonDetail = () => {
 
   if (editItemId) {
     content = (
-      <ItemForm 
-        itemId={editItemId} 
-        hideForm={() => setEditItemId(null)} 
+      <ItemForm
+        itemId={editItemId}
+        hideForm={() => setEditItemId(null)}
       />
     );
   } else if (showEditPokeForm && pokemon.captured) {
     content = (
-      <EditPokemonForm 
-        pokemon={pokemon} 
-        hideForm={() => setShowEditPokeForm(false)} 
+      <EditPokemonForm
+        pokemon={pokemon}
+        hideForm={() => setShowEditPokeForm(false)}
       />
     );
   } else {
@@ -66,7 +70,7 @@ const PokemonDetail = () => {
         </div>
         <div>
           <h2>
-            Items 
+            Items
             <button> + </button>
           </h2>
           <table>

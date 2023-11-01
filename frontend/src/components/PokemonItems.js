@@ -1,6 +1,8 @@
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 
 const PokemonItems = ({ pokemon, setEditItemId }) => {
+
+
   const items = useSelector((state) => {
     if (!pokemon.items) return null;
     return pokemon.items.map(itemId => state.items[itemId]);
@@ -35,7 +37,7 @@ const PokemonItems = ({ pokemon, setEditItemId }) => {
             Delete
           </button>
         </td>
-        
+
       )}
     </tr>
   ));
